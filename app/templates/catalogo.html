@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="page-header" style="text-align: center; margin-bottom: var(--space-8);">
+        <h2 style="font-size: clamp(2.5rem, 5vw, 3.5rem); margin-bottom: var(--space-2); color: var(--clr-text-900);">Encuentra a tu mejor amigo 🐕</h2>
+        <p style="color: var(--clr-text-500); font-size: 1.1rem; max-width: 600px; margin: 0 auto;">Todos estos perritos buscan un hogar lleno de amor.</p>
+    </div>
+
+    <div class="form-group" style="max-width: 500px; margin: 0 auto var(--space-8);">
+        <input type="text" id="buscador" onkeyup="filtrarPerros()" placeholder="🔍 Buscar por raza o nombre..." style="width: 100%; padding: 16px 24px; border-radius: var(--radius-pill); border: 2px solid rgba(0,0,0,0.05); box-shadow: var(--shadow-sm); font-size: 1.1rem; outline: none; transition: box-shadow 0.3s ease;">
+    </div>
+
+    <script>
+    function filtrarPerros() {
+        let input = document.getElementById('buscador').value.toLowerCase();
+        let cards = document.getElementsByClassName('dog-card'); 
+        
+        for (let card of cards) {
+            let texto = card.innerText.toLowerCase();
+            card.style.display = texto.includes(input) ? "" : "none";
+        }
+    }
+    </script>
+
+    <div class="mural-grid">
+        {% for dog in dogs %}
+        <div class="mural-card dog-card" style="display: flex; flex-direction: column; height: 100%;">
+            
+            <div class="mural-image-wrapper">
+                <img src="{{ dog.image_url }}" alt="Foto de {{ dog.name }}">
+                
+                <span class="mural-badge">{{ dog.age }}</span>
+            </div>
+            
+            <div class="mural-content" style="flex-grow: 1; display: flex; flex-direction: column;">
+                <h3 class="mural-title" style="font-size: 1.6rem; margin-bottom: 4px;">{{ dog.name }}</h3>
+                
+                <span class="mural-date" style="text-transform: none; font-size: 1.05rem; color: var(--clr-text-500); margin-bottom: var(--space-4);">
+                    Tiene <strong>{{ dog.breed }}</strong> años
+                </span>
+                
+                <div style="margin-top: auto;">
+                    <a href="/adoptar/{{ dog.id }}" class="btn-submit" style="display: block; text-align: center; background: var(--clr-primary-500); padding: 12px; font-size: 0.95rem; text-decoration: none; color: white;">
+                        ¡Adoptar a {{ dog.name }}!
+                    </a>
+                </div>
+            </div>
+
+        </div>
+        {% endfor %}
+    </div>
+{% endblock %}

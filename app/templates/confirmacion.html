@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="form-container">
+    <div class="adoption-header">
+        <h2>Confirmar Adopción</h2>
+        <p>Estás a un paso de cambiarle la vida a <strong>{{ dog.name }}</strong></p>
+    </div>
+
+    <div class="form-card">
+        <div style="text-align: center; margin-bottom: var(--space-8);">
+            <img src="{{ dog.image_url }}" alt="Foto de {{ dog.name }}" 
+                 style="width: 140px; height: 140px; border-radius: 50%; object-fit: cover; border: 4px solid var(--clr-primary-50); box-shadow: var(--shadow-md); margin-bottom: var(--space-3);">
+            <h3>{{ dog.name }}</h3>
+            <p style="color: var(--clr-text-500); font-size: 0.95rem;">Raza: {{ dog.breed }} | Edad: {{ dog.age }} años</p>
+        </div>
+
+        <form action="{{ url_for('main.procesar_adopcion') }}" method="POST">
+            <input type="hidden" name="dog_id" value="{{ dog.id }}">
+            
+            <div class="form-group">
+                <label>Tu Nombre</label>
+                <input type="text" name="name" required placeholder="Ej. Paola">
+            </div>
+            
+            <div class="form-group">
+                <label>Tu Apellido</label>
+                <input type="text" name="lastname" required placeholder="Ej. Sánchez">
+            </div>
+
+            <div class="form-group">
+                <label>Cédula/ID</label>
+                <input type="text" name="id_card" required placeholder="Tu número de documento">
+            </div>
+
+            <div class="form-group">
+                <label>Dirección de Vivienda</label>
+                <input type="text" name="address" required placeholder="¿Dónde vivirá el perrito?">
+            </div>
+
+            <button type="submit" class="btn-submit">
+                FINALIZAR ADOPCIÓN 🐾
+            </button>
+        </form>
+    </div>
+</div>
+{% endblock %}

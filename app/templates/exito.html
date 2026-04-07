@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="form-container" style="text-align: center; margin-top: var(--space-8);">
+    <div class="form-card">
+        <div style="font-size: 5rem; margin-bottom: var(--space-4);">🎉</div>
+        <h2 style="color: var(--clr-primary-500); margin-bottom: var(--space-2); font-size: 2rem;">¡Adopción Exitosa!</h2>
+        <p style="color: var(--clr-text-500); font-size: 1.1rem; margin-bottom: var(--space-8);">
+            Gracias por darle una oportunidad a un nuevo amigo. 
+            El proceso se ha registrado correctamente en nuestro sistema.
+        </p>
+        
+        <div style="display: flex; flex-direction: column; gap: var(--space-4);">
+            <a href="{{ url_for('main.historial') }}" class="btn-submit" style="background-color: var(--clr-primary-500); box-shadow: var(--shadow-md);">Ver Historial</a>
+            <a href="{{ url_for('main.index') }}" style="color: var(--clr-text-500); font-weight: 700; text-decoration: underline;">Volver al Catálogo</a>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+<script>
+    // Confeti usando los colores de tu nueva App
+    confetti({
+        particleCount: 150,
+        spread: 70,
+        origin: { y: 0.6 },
+        colors: ['#8b5cf6', '#f97316', '#ffffff'] 
+    });
+</script>
+{% endblock %}

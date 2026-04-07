@@ -1,0 +1,650 @@
+
+/* --- 1. IMPORTACIONES Y VARIABLES GLOBALES (TOKENS DE DISEÑO) --- */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+:root {
+    /* Paleta de Colores Principal (Basada en tus imágenes) */
+    --clr-primary-500: #8b5cf6;       /* Morado vibrante */
+    --clr-primary-600: #7c3aed;       /* Morado oscuro (hover) */
+    --clr-primary-50:  #f5f3ff;       /* Fondo morado súper suave */
+    --clr-accent-500:  #f97316;       /* Naranja App (Call to action) */
+    --clr-accent-600:  #ea580c;       /* Naranja oscuro (hover) */
+    
+    /* Superficies y Fondos */
+    --clr-bg-body:     #f8fafc;       /* Gris azulado muy claro, no blanco puro */
+    --clr-bg-surface:  #ffffff;       /* Blanco puro para tarjetas */
+    --clr-glass-bg:    rgba(255, 255, 255, 0.85); /* Efecto cristal */
+    
+    /* Texto */
+    --clr-text-900:    #0f172a;       /* Títulos casi negros */
+    --clr-text-700:    #334155;       /* Texto principal */
+    --clr-text-500:    #64748b;       /* Texto secundario/metadatos */
+    --clr-text-300:    #cbd5e1;       /* Bordes y placeholders */
+    
+    /* Espaciado Matemático (Sistema de 8pt) */
+    --space-2:  0.5rem;   /* 8px */
+    --space-3:  0.75rem;  /* 12px */
+    --space-4:  1rem;     /* 16px */
+    --space-6:  1.5rem;   /* 24px */
+    --space-8:  2rem;     /* 32px */
+    --space-12: 3rem;     /* 48px */
+    --space-16: 4rem;     /* 64px */
+    
+    /* Radios de Borde (Bordes muy curvos, estilo iOS/App) */
+    --radius-sm:  8px;
+    --radius-md:  16px;
+    --radius-lg:  24px;
+    --radius-xl:  32px;
+    --radius-pill: 9999px;
+    
+    /* Sombras Compuestas (Realismo y profundidad UX) */
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+    --shadow-lg: 0 10px 15px -3px rgba(139, 92, 246, 0.05), 0 4px 6px -4px rgba(139, 92, 246, 0.02);
+    --shadow-xl: 0 20px 25px -5px rgba(139, 92, 246, 0.1), 0 8px 10px -6px rgba(139, 92, 246, 0.1);
+    --shadow-glow: 0 0 20px rgba(139, 92, 246, 0.2);
+    
+    /* Transiciones */
+    --ease-spring: cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Efecto rebote */
+    --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-fast: 0.15s var(--ease-smooth);
+    --transition-normal: 0.3s var(--ease-smooth);
+}
+
+/* --- 2. RESETEO AVANZADO Y ACCESIBILIDAD --- */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+}
+
+body {
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    background-color: var(--clr-bg-body);
+    color: var(--clr-text-700);
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Selección de texto elegante */
+::selection {
+    background-color: var(--clr-primary-500);
+    color: white;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar-track { background: var(--clr-bg-body); }
+::-webkit-scrollbar-thumb { background: var(--clr-text-300); border-radius: var(--radius-pill); }
+::-webkit-scrollbar-thumb:hover { background: var(--clr-text-500); }
+
+/* --- 3. COMPONENTES GLOBALES Y TIPOGRAFÍA --- */
+h1, h2, h3, h4 {
+    color: var(--clr-text-900);
+    line-height: 1.2;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+    transition: color var(--transition-fast);
+}
+
+/* Enfoque accesible (Focus ring para navegación por teclado) */
+:focus-visible {
+    outline: 3px solid var(--clr-primary-500);
+    outline-offset: 2px;
+}
+
+/* --- 4. NAVEGACIÓN (HEADER GLASSMORPHISM) --- */
+.site-header {
+    background: var(--clr-glass-bg);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    padding: var(--space-4) var(--space-6);
+    box-shadow: var(--shadow-sm);
+}
+
+.header-content {
+    max-width: 1600px; /* Antes 1200px */
+    width: 95%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: clamp(1.25rem, 3vw, 1.5rem);
+    font-weight: 800;
+    color: var(--clr-primary-500);
+    letter-spacing: -0.5px;
+}
+
+.main-nav {
+    display: flex;
+    gap: var(--space-8);
+}
+
+.main-nav a {
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--clr-text-500);
+    position: relative;
+    padding: var(--space-2) 0;
+}
+
+.main-nav a:hover, .main-nav a.active {
+    color: var(--clr-primary-500);
+}
+
+/* Indicador animado debajo del menú */
+.main-nav a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0%;
+    height: 3px;
+    background-color: var(--clr-primary-500);
+    border-radius: var(--radius-pill);
+    transition: width var(--transition-normal);
+}
+
+.main-nav a:hover::after, .main-nav a.active::after {
+    width: 100%;
+}
+
+/* --- 5. ESTRUCTURA PRINCIPAL --- */
+.main-content {
+    flex: 1;
+    width: 95%;
+    max-width: 1600px; /* Antes 1200px */
+    margin: 0 auto;
+    padding: var(--space-12) 0; /* Quitamos el padding lateral restrictivo */
+}
+
+.page-header {
+    margin-bottom: var(--space-12);
+    text-align: left; /* Alineación moderna, no centrada */
+}
+
+.page-header h2 {
+    font-size: clamp(2rem, 5vw, 3rem);
+    margin-bottom: var(--space-2);
+}
+
+/* --- 6. CATÁLOGO DE PERROS (SMART CARDS) --- */
+.cards-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); /* Antes 300px */
+    gap: var(--space-8);
+}
+
+.dog-card {
+    background-color: var(--clr-bg-surface);
+    border-radius: var(--radius-xl);
+    padding: var(--space-3);
+    box-shadow: var(--shadow-lg);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    transition: transform 0.4s var(--ease-spring), box-shadow 0.4s var(--ease-smooth);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.dog-card:hover {
+    transform: translateY(-10px);
+    box-shadow: var(--shadow-xl);
+}
+
+.dog-image {
+    width: 100%;
+    height: 280px;
+    object-fit: cover;
+    border-radius: var(--radius-lg);
+    background-color: var(--clr-primary-50);
+}
+
+.dog-info {
+    padding: var(--space-4) var(--space-2) var(--space-2);
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.dog-info h3 {
+    font-size: 1.5rem;
+    margin-bottom: var(--space-2);
+}
+
+.dog-info p {
+    color: var(--clr-text-500);
+    font-size: 0.95rem;
+    margin-bottom: var(--space-4);
+    flex-grow: 1;
+}
+
+/* --- 7. BOTONES AVANZADOS (INTERACCIONES) --- */
+.btn-adoptar, .btn-submit, .center-button a {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: var(--space-4) var(--space-6);
+    background-color: var(--clr-primary-500);
+    color: white;
+    font-weight: 700;
+    font-size: 1rem;
+    border: none;
+    border-radius: var(--radius-pill);
+    cursor: pointer;
+    transition: all var(--transition-normal);
+    box-shadow: 0 8px 15px rgba(139, 92, 246, 0.2);
+}
+
+.btn-adoptar:hover, .btn-submit:hover, .center-button a:hover {
+    background-color: var(--clr-primary-600);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-glow);
+}
+
+.btn-adoptar:active, .btn-submit:active {
+    transform: translateY(1px);
+}
+
+/* Botón especial naranja para acciones primarias */
+.btn-submit {
+    background-color: var(--clr-accent-500);
+    box-shadow: 0 8px 15px rgba(249, 115, 22, 0.2);
+}
+.btn-submit:hover {
+    background-color: var(--clr-accent-600);
+    box-shadow: 0 0 20px rgba(249, 115, 22, 0.3);
+}
+
+/* --- 8. REVOLUCIÓN DEL HISTORIAL (DESTRUYENDO LA TABLA) --- */
+/* Esta sección es crítica. Sobrescribimos el comportamiento default de <table> para convertirlo en un Feed de UI moderna */
+
+.table-container {
+    background: transparent;
+    box-shadow: none;
+    border-radius: 0;
+    margin-bottom: var(--space-12);
+}
+
+.styled-table {
+    width: 100%;
+    display: grid; /* Grid en lugar de table */
+    gap: var(--space-4);
+    border-collapse: separate;
+}
+
+/* Adiós encabezados azules de Excel */
+.styled-table thead {
+    display: none; 
+}
+
+.styled-table tbody {
+    display: contents; /* Permite que las filas fluyan directamente en el grid padre */
+}
+
+.styled-table tr {
+    display: grid;
+    grid-template-columns: auto 1fr auto auto; /* Estructura interna de la tarjeta */
+    align-items: center;
+    gap: var(--space-4);
+    background-color: var(--clr-bg-surface);
+    padding: var(--space-4);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    border: 1px solid rgba(0,0,0,0.03);
+    transition: all var(--transition-normal);
+}
+
+.styled-table tr:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateX(4px);
+    border-color: var(--clr-primary-50);
+}
+
+/* Formateo de Celdas como bloques de información */
+.styled-table td {
+    padding: 0;
+    border: none;
+    display: flex;
+    align-items: center;
+}
+
+/* 1. Foto del Perrito (O Adoptante si así lo ordenas en tu HTML) */
+.styled-table td:nth-child(2) {
+    grid-column: 1 / 2;
+}
+
+.styled-table td img {
+    width: 56px !important;
+    height: 56px !important;
+    border-radius: 50% !important;
+    object-fit: cover;
+    border: 2px solid var(--clr-primary-50);
+    padding: 2px; /* Efecto de anillo estilo Instagram */
+    background: white;
+}
+
+/* 2. Nombre del Adoptante (Texto Principal) */
+.styled-table td:nth-child(1) {
+    grid-column: 2 / 3;
+    font-weight: 800;
+    font-size: 1.1rem;
+    color: var(--clr-text-900);
+    display: flex;
+    flex-direction: column;
+}
+
+/* 3. Ocultar rutas crudas si tu backend las imprime */
+.styled-table td:nth-child(3) {
+    display: none;
+}
+
+/* 4. Etiqueta / Badge de Raza */
+.styled-table td:nth-child(4) {
+    grid-column: 3 / 4;
+}
+
+.badge {
+    background-color: var(--clr-primary-50);
+    color: var(--clr-primary-600);
+    padding: 6px 14px;
+    border-radius: var(--radius-pill);
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+/* 5. Fecha de Adopción */
+.styled-table td:nth-child(5) {
+    grid-column: 4 / 5;
+    font-size: 0.9rem;
+    color: var(--clr-text-500);
+    font-weight: 500;
+}
+
+/* Estado Vacío Elegante */
+.empty-state {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: var(--space-12) !important;
+    background: var(--clr-bg-surface);
+    border-radius: var(--radius-lg);
+    border: 2px dashed var(--clr-text-300);
+    color: var(--clr-text-500);
+}
+
+/* --- 9. FORMULARIO DE ADOPCIÓN (UI PREMIUM) --- */
+.form-container {
+    max-width: 650px;
+    margin: 0 auto;
+}
+
+.adoption-header {
+    text-align: center;
+    margin-bottom: var(--space-8);
+}
+
+.adoption-header p {
+    color: var(--clr-text-500);
+    font-size: 1.1rem;
+}
+
+.form-card {
+    background-color: var(--clr-bg-surface);
+    padding: clamp(1.5rem, 5vw, 3rem);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-xl);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.form-card h3 {
+    color: var(--clr-primary-500);
+    font-size: 1.5rem;
+    margin-bottom: var(--space-2);
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.form-subtitle {
+    color: var(--clr-text-500);
+    margin-bottom: var(--space-8);
+    font-size: 0.95rem;
+}
+
+.form-group {
+    margin-bottom: var(--space-6);
+    position: relative;
+}
+
+.form-group label {
+    display: block;
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: var(--clr-text-700);
+    margin-bottom: var(--space-2);
+    transition: color var(--transition-fast);
+}
+
+/* Inputs Modernos con estado Focus-Within */
+.form-group input {
+    width: 100%;
+    padding: 1rem 1.25rem;
+    background-color: var(--clr-bg-body);
+    border: 2px solid transparent;
+    border-radius: var(--radius-md);
+    font-size: 1rem;
+    color: var(--clr-text-900);
+    font-weight: 500;
+    transition: all var(--transition-normal);
+}
+
+.form-group input::placeholder {
+    color: var(--clr-text-300);
+}
+
+.form-group input:hover {
+    background-color: #f1f5f9;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: var(--clr-primary-500);
+    background-color: var(--clr-bg-surface);
+    box-shadow: 0 0 0 4px var(--clr-primary-50);
+}
+
+.form-group:focus-within label {
+    color: var(--clr-primary-600);
+}
+
+/* --- 10. ANIMACIONES DE CARGA (MICRO-INTERACCIONES) --- */
+@keyframes slideUpFade {
+    0% { opacity: 0; transform: translateY(20px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+.dog-card {
+    animation: slideUpFade 0.6s var(--ease-spring) both;
+}
+
+/* Retraso escalonado para las tarjetas del catálogo (Stagger effect) */
+.dog-card:nth-child(1) { animation-delay: 0.1s; }
+.dog-card:nth-child(2) { animation-delay: 0.2s; }
+.dog-card:nth-child(3) { animation-delay: 0.3s; }
+.dog-card:nth-child(4) { animation-delay: 0.4s; }
+.dog-card:nth-child(5) { animation-delay: 0.5s; }
+.dog-card:nth-child(6) { animation-delay: 0.6s; }
+
+/* --- 11. FOOTER --- */
+.site-footer {
+    background-color: var(--clr-bg-surface);
+    color: var(--clr-text-500);
+    text-align: center;
+    padding: var(--space-8) var(--space-4);
+    margin-top: auto;
+    border-top: 1px solid var(--clr-bg-body);
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+/* --- 12. MEDIA QUERIES (DISEÑO RESPONSIVO PERFECTO) --- */
+/* Dispositivos Móviles Pequeños */
+@media (max-width: 600px) {
+    .header-content {
+        flex-direction: column;
+        gap: var(--space-4);
+    }
+    
+    .main-nav {
+        gap: var(--space-4);
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    
+    .styled-table tr {
+        grid-template-columns: auto 1fr;
+        grid-template-rows: auto auto auto;
+    }
+    
+    /* Reorganizamos la tarjeta del historial para móvil */
+    .styled-table td:nth-child(2) { /* Foto */
+        grid-column: 1 / 2;
+        grid-row: 1 / 3;
+    }
+    .styled-table td:nth-child(1) { /* Nombre */
+        grid-column: 2 / 3;
+        grid-row: 1 / 2;
+        align-self: end;
+    }
+    .styled-table td:nth-child(4) { /* Raza (Badge) */
+        grid-column: 2 / 3;
+        grid-row: 2 / 3;
+        justify-content: flex-start;
+        align-self: start;
+        margin-top: var(--space-2);
+    }
+    .styled-table td:nth-child(5) { /* Fecha */
+        grid-column: 1 / 3;
+        grid-row: 3 / 4;
+        justify-content: center;
+        margin-top: var(--space-3);
+        padding-top: var(--space-3);
+        border-top: 1px solid var(--clr-bg-body);
+    }
+}
+
+/* Tabletas */
+@media (max-width: 900px) {
+    .cards-container {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    }
+}
+
+/* --- 13. MURAL DE ADOPCIONES (HISTORIAL PINTEREST) --- */
+.mural-grid {
+    display: grid;
+    /* Reducimos el ancho mínimo de 320px a 260px para que entren 4 por fila */
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: var(--space-6); /* También reduje un poquito el espacio entre ellas para que no queden tan separadas */
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 var(--space-4);
+}
+
+.mural-card {
+    background: var(--clr-bg-surface);
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+    transition: transform 0.4s var(--ease-spring), box-shadow 0.4s var(--ease-smooth);
+    position: relative;
+    border: 1px solid rgba(0,0,0,0.03);
+}
+
+.mural-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-xl);
+}
+
+.mural-image-wrapper {
+    position: relative;
+}
+
+.mural-image-wrapper img {
+    width: 100%;
+    aspect-ratio: 4/5;
+    object-fit: cover;
+    display: block;
+    border-bottom: 1px solid var(--clr-text-300);
+}
+
+.mural-badge {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: rgba(255, 255, 255, 0.95);
+    color: var(--clr-text-900);
+    padding: 6px 16px;
+    border-radius: var(--radius-pill);
+    font-size: 0.85rem;
+    font-weight: 800;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
+.mural-content {
+    padding: var(--space-6);
+}
+
+.mural-date {
+    color: var(--clr-text-500);
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: var(--space-2);
+    display: block;
+}
+
+.mural-title {
+    color: var(--clr-text-900);
+    font-size: 1.5rem;
+    margin-bottom: var(--space-2);
+    font-weight: 800;
+    line-height: 1.2;
+}
+
+.mural-desc {
+    color: var(--clr-text-700);
+    font-size: 1.05rem;
+    line-height: 1.6;
+    word-wrap: break-word; /* Esto evita que los nombres largos se salgan de la tarjeta */
+}

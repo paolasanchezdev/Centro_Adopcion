@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="page-header" style="text-align: center; margin-bottom: var(--space-8);">
+    <h2 style="font-size: clamp(2.5rem, 5vw, 3.5rem); margin-bottom: var(--space-2); color: var(--clr-text-900);">Mural de Adopciones 📸</h2>
+    
+    <p style="color: var(--clr-text-500); font-size: 1.1rem; max-width: 600px; margin: 0 auto var(--space-6);">Cada foto es una historia de rescate, amor y segundas oportunidades.</p>
+    
+    <div style="display: flex; justify-content: center;">
+        <a href="/" class="btn-submit" style="width: fit-content; background: var(--clr-primary-500); color: white; text-decoration: none; padding: 12px 32px; font-size: 1.05rem; border-radius: var(--radius-pill); box-shadow: var(--shadow-sm); transition: transform 0.2s, box-shadow 0.2s;">
+            Buscar a mi nuevo amigo
+        </a>
+    </div>
+</div>
+
+<div class="mural-grid">
+
+    {% for registro in adopciones %}
+    <div class="mural-card" style="display: flex; flex-direction: column; height: 100%;">
+         
+        <div class="mural-image-wrapper">
+            <img src="{{ registro[2] }}" alt="Foto de {{ registro[3] }}">
+            <span class="mural-badge">{{ registro[4] }}</span>
+        </div>
+
+        <div class="mural-content" style="flex-grow: 1; display: flex; flex-direction: column;">
+            <span class="mural-date">{{ registro[5] }}</span>
+            <h3 class="mural-title">{{ registro[3] }} encontró su hogar ❤️</h3>
+            <p class="mural-desc">Adoptado con mucho amor por <strong>{{ registro[0] }} {{ registro[1] }}</strong>.</p>
+        </div>
+        
+    </div>
+    {% else %}
+    <div class="empty-state" style="grid-column: 1 / -1; text-align: center; padding: var(--space-10) 0;">
+        <span style="font-size: 4rem; display: block; margin-bottom: var(--space-4);">🖼️</span>
+        <h3 style="color: var(--clr-text-700); margin-bottom: var(--space-2);">Este mural espera su primera foto</h3>
+        <p style="color: var(--clr-text-500);">¡Sé la primera persona en aparecer aquí adoptando a uno de nuestros perritos!</p>
+    </div>
+    {% endfor %}
+
+</div>
+{% endblock %}
