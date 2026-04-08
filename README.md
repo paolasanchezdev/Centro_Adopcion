@@ -1,30 +1,68 @@
-# 🐾 Centro de Adopción de Mascotas
+# 🐾 Sistema Integral: Centro de Adopción de perros
 
-Este es un proyecto web desarrollado con **Python** y **Flask** para gestionar la adopción de perros. El sistema permite visualizar mascotas disponibles, registrar adoptantes mediante un proceso seguro y mantener un historial detallado de cada adopción.
+![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![Flask](https://img.shields.io/badge/Flask-000000?style=for-the-badge&logo=flask&logoColor=white)
+![MariaDB](https://img.shields.io/badge/MariaDB-003545?style=for-the-badge&logo=mariadb&logoColor=white)
 
-## Funcionalidades
-- **Catálogo Dinámico:** Lista de perros que aún no han sido adoptados.
-- **Registro Seguro:** Validación de identidad por cédula para evitar duplicados.
-- **Transacciones SQL:** Uso de MariaDB para asegurar que los datos se guarden correctamente.
-- **Historial:** Panel para revisar quién adoptó a cada mascota.
+Este proyecto es una plataforma web diseñada para automatizar la gestión de un refugio de animales. El enfoque principal es garantizar la integridad de los datos y la seguridad de la información sensible mediante el uso de buenas prácticas de desarrollo.
 
-## Demostración (Capturas de Pantalla)
+## 🌟 Funcionalidades Detalladas
 
-### 1. Inicio (Catálogo)
-![Inicio](screenshots/inicio.png)
+### 1. Gestión Dinámica de Inventario
+El sistema filtra en tiempo real los registros de la base de datos. Solo los perros con el estado `adopted = 0` son visibles para los usuarios, asegurando que el catálogo siempre esté actualizado sin intervención manual.
 
-### 2. Formulario de Adopción
-![Formulario](screenshots/formulario_adopcion.png)
+### 2. Seguridad y Protección de Datos
+- **Variables de Entorno:** Se implementó `python-dotenv` para separar las credenciales de la base de datos del código fuente, evitando fugas de información en el repositorio público.
+- **Validación de Identidad:** El sistema verifica la existencia de la cédula en la tabla `Person` antes de crear un nuevo registro, optimizando el almacenamiento y evitando la duplicidad de datos.
 
-### 3. Historial de Adopciones
-![Historial](screenshots/historial.png)
-
-## Instalación
-1. Clona el repositorio.
-2. Crea tu entorno virtual: `python -m venv venv`.
-3. Instala las librerías: `pip install -r requirements.txt`.
-4. Crea tu archivo `.env` con tus credenciales de MariaDB.
-5. Ejecuta con: `flask run`.
+### 3. Transacciones SQL Robustas
+Para el proceso de adopción se utilizan **transacciones atómicas**. Esto garantiza que si falla el registro del adoptante, no se marque al perro como adoptado por error, manteniendo la base de datos siempre consistente.
 
 ---
-Desarrollado por Paola Rodríguez - 2026
+
+## 📸 Demostración del Sistema
+
+### 🏠 Vista Principal (Catálogo)
+Interfaz limpia donde se presentan las mascotas disponibles para adopción.
+![Catálogo de mascotas](screenshots/inicio.png)
+
+### 📝 Formulario de Adopción Segura
+Módulo donde se recopilan los datos del adoptante y se procesa la lógica de negocio.
+![Formulario de adopción](screenshots/formulario_adopcion.png)
+
+### 📋 Historial de Movimientos
+Panel administrativo que muestra el éxito de las transacciones de adopción realizadas.
+![Historial de adopciones](screenshots/historial_adopciones.png)
+
+---
+
+## 🛠️ Guía de Instalación Local
+
+Para replicar este entorno en tu máquina local, sigue estos pasos detallados:
+
+1. **Clonación del Proyecto:**
+   ```bash
+   git clone [https://github.com/tu-usuario/nombre-del-repo.git](https://github.com/tu-usuario/nombre-del-repo.git)
+   cd nombre-del-repo
+Entorno Virtual (Aislamiento de Dependencias):
+Es fundamental para evitar conflictos con otras versiones de Python.
+
+Bash
+python -m venv venv
+source venv/Scripts/activate  # En Windows usa: venv\Scripts\activate
+Instalación de Librerías:
+
+Bash
+pip install -r requirements.txt
+Configuración de Variables Secretas:
+Crea un archivo llamado .env en la raíz con tus credenciales:
+
+Ini, TOML
+DB_HOST=localhost
+DB_USER=tu_usuario
+DB_PASSWORD=tu_contraseña
+DB_NAME=CentroAdopcion
+Lanzamiento:
+
+Bash
+flask run
